@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+			<!--使用json格式输出 -->
+			<JsonLayout locationInfo="false" complete="false" properties="true" compact="true" eventEol="true"/>
+			<!-- 
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{ip}] [%t] %-5level %logger{36} - %msg%n"/>
+			 -->
+		</Console>
+		<File name="logFile" fileName="D:/logs/report.log" append="true">
+			<JsonLayout locationInfo="true" complete="false"/>
+		</File>
+		<RollingFile name="RollingFileInfo" fileName="D:/logs/append_info.log" filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+			<JsonLayout locationInfo="true" complete="false" properties="true" compact="true" eventEol="true"/>
+			<SizeBasedTriggeringPolicy size="50MB"/>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20"/>
+		</RollingFile>
+		<RollingFile name="RollingFileWarn" fileName="D:/logs/append_warn.log" filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+			<JsonLayout locationInfo="true" complete="false" properties="true" compact="true" eventEol="true"/>
+			<SizeBasedTriggeringPolicy size="50MB"/>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20"/>
+		</RollingFile>
+		<RollingFile name="RollingFileError" fileName="D:/logs/append_error.log" filePattern="log/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			<JsonLayout locationInfo="true" complete="false" properties="true" compact="true" eventEol="true"/>
+			<SizeBasedTriggeringPolicy size="50MB"/>
+			<!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20"/>
+		</RollingFile>
+		
+	</appenders>
+	<loggers>
+		<logger name="cn.ipph.eval.interceptor" level="trace" additivity="false">
+			<appender-ref ref="Console"/>
+			<appender-ref ref="logFile"/>
+			<appender-ref ref="RollingFileInfo"/>
+			<appender-ref ref="RollingFileWarn"/>
+			<appender-ref ref="RollingFileError"/>
+		</logger>
+		<root level="trace">
+			<appender-ref ref="Console" />
+		</root>
+	</loggers>
+</configuration>
