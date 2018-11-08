@@ -9,5 +9,8 @@
 </head>
 <body>
     Hello world!
+    <p>
+        html5 page
+    </p>
 </body>
 </html>
