@@ -30,6 +30,10 @@ public class UserInfo implements Serializable{
      */
     private int type;
 
+    public UserInfo() {
+
+    }
+
     public int getId() {
         return id;
     }
