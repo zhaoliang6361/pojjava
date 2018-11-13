@@ -1,5 +1,11 @@
 package cn.self.code.algorithm;
 
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Created by zhaoliang on 2018/11/12.
  */
@@ -108,5 +114,37 @@ public class SortingAlgorithm {
                 8, 89, 5, 84, 3, 45, 12, 33, 77, 98, 456, 878, 654, 213, 897
         };
         instance.efferArray(in2);
+    }
+
+    @Test
+    public void sortTest(){
+        int[] arr= new int[10];
+        Random random = new Random();
+        for (int i=0;i<10;i++){
+            arr[i]=(random.nextInt(100));
+        }
+        for(int i =0;i<arr.length;i++){
+            System.out.print(arr[i]+", ");
+        }
+        int tem = 0;
+        int num=0;
+        int upnum=0;
+        for(int i=0;i<arr.length;i++){
+            for(int j=i; j<arr.length-1; j++){
+                num++;
+                if(arr[j+1] < arr[i]){
+
+                    tem=arr[j+1]; arr[j+1]=arr[i]; arr[i]=tem;
+
+                    upnum+=1;
+                }
+            }
+        }
+        System.out.println();
+        System.out.println("循环次数："+num);
+        System.out.println("变更次数："+upnum);
+       for(int i =0;i<arr.length;i++){
+            System.out.print(arr[i]+", ");
+       }
     }
 }
