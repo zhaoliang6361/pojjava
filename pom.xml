@@ -11,6 +11,7 @@
     <modules>
         <module>webapp</module>
         <module>webservice</module>
+        <module>data</module>
     </modules>
 
 
