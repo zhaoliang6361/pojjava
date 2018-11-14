@@ -11,6 +11,8 @@
     <modules>
         <module>webapp</module>
         <module>webservice</module>
+        <module>data</module>
+        <module>algorithm</module>
     </modules>
 
 
