@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="algorithm" />
         <module name="data" />
+        <module name="algorithm" />
         <module name="webapp" />
         <module name="webservice" />
       </profile>
@@ -15,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="algorithm" target="1.5" />
       <module name="data" target="1.5" />
+      <module name="algorithm" target="1.5" />
       <module name="pojjava" target="1.5" />
       <module name="webapp" target="1.7" />
       <module name="webservice" target="1.5" />
