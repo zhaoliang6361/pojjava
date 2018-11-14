@@ -6,12 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="data" />
         <module name="algorithm" />
         <module name="webapp" />
         <module name="webservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="data" target="1.5" />
       <module name="algorithm" target="1.5" />
       <module name="pojjava" target="1.5" />
       <module name="webapp" target="1.7" />
