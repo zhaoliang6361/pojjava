@@ -17,7 +17,7 @@ public class CgiiaData {
     public static void main(String[] args){
         Workbook workbook = null;
         try {
-            workbook = WorkbookFactory.create(new File("d:/地理标志数据库（2018.11.13更新）.xls"));
+            workbook = WorkbookFactory.create(new File("E:/works/地理标志/地理标志数据库（2018.11.13更新）.xls"));
             Sheet sheet = workbook.getSheetAt(0);
             for(int i=1;i<=sheet.getLastRowNum();i++){
                 Row row = sheet.getRow(i);
