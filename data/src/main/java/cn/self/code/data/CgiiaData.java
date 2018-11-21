@@ -18,7 +18,7 @@ public class CgiiaData {
     public static void main(String[] args){
         Workbook workbook = null;
         try {
-            workbook = WorkbookFactory.create(new File("d:/地理标志数据库（2018.11.13更新）.xls"));
+            workbook = WorkbookFactory.create(new File("E:/works/地理标志/地理标志数据库（2018.11.13更新）.xls"));
             Sheet sheet = workbook.getSheetAt(0);
             //质检数据
             Map<String,String> qMap = new HashMap<String, String>();
