@@ -1,10 +1,12 @@
 package cn.self.code.data;
 
+import com.sun.javafx.binding.StringFormatter;
 import org.apache.poi.ss.usermodel.*;
+import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +19,7 @@ public class CgiiaData {
 
     public static void main(String[] args){
         Workbook workbook = null;
+        BufferedWriter writer = null;
         try {
             workbook = WorkbookFactory.create(new File("E:/works/地理标志/地理标志数据库（2018.11.13更新）.xls"));
             Sheet sheet = workbook.getSheetAt(0);
@@ -28,6 +31,7 @@ public class CgiiaData {
             Map<String,String> aMap = new HashMap<String, String>();
             Connection conn = null;
             try {
+                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("E:/works/地理标志/update.sql"),true),"UTF-8"));
                 conn = getConnection();
                 PreparedStatement stmt = conn.prepareStatement("select title,code from tb_agriculture");
                 ResultSet rs = stmt.executeQuery();
@@ -58,6 +62,12 @@ public class CgiiaData {
                 }
             }
             int anum=0, mnum=0,qnum=0;
+            int idx1 = 2498;
+            int idx2 =  3625;
+            int idx3 = 2117;
+            String pattern1 = "insert into tb_quality(code,title,register_unit,approve_date,approve_notice,province,city,district,class_1,class_2,class_3) values({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10});";
+            String pattern2 = "insert into tb_trade_mark(code,title,registrant,approve_date, registion_number,province,city,district,class_1,class_2,class_3) values({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10});";
+            String pattern3 = "insert into tb_agriculture(code,title,applicant,approve_date,pub_code,province,city,district,class_1,class_2,class_3) values({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10});";
             for(int i=1;i<=sheet.getLastRowNum();i++){
 //                System.out.println(i);
                 Row row = sheet.getRow(i);
@@ -93,23 +103,36 @@ public class CgiiaData {
                 Set<String> mSet = mMap.keySet();
                 Set<String> aSet = aMap.keySet();
                 if(country.equals("中国")){
-                    if(depart.equals("质检总局")){
+                    if(depart.equals("质检总局") || depart.equals("国家知识产权局")){
                         if(!qSet.contains(name)){
                             qnum++;
+                            idx1++;
+                            String code = 100000 + idx1 + "";
+                            String sql = MessageFormat.format(pattern1,"'"+code+"'","'"+name+"'","'"+unit+"'","'"+year+"'","'"+num+"'","'"+province+"'","'"+city+"'","'"+district+"'","'"+cls_1+"'","'"+cls_2+"'","'"+cls_3+"'");
+                            writer.write(sql + System.getProperty("line.separator"));
+                            writer.flush();
                         }
                     } else if(depart.equals("工商总局")){
                         System.out.println(name+"_" + num);
                         if(!mSet.contains(name + "_" + num)){
                             mnum++;
+                            idx2++;
+                            String code = 200000 + idx2 + "";
+                            String sql = MessageFormat.format(pattern2,"'"+code+"'","'"+name+"'","'"+unit+"'","'"+year+"'","'"+num+"'","'"+province+"'","'"+city+"'","'"+district+"'","'"+cls_1+"'","'"+cls_2+"'","'"+cls_3+"'");
+                            writer.write(sql+ System.getProperty("line.separator"));
+                            writer.flush();
                         }
                     } else if(depart.equals("农业部")){
                         if(!aSet.contains(name)){
                             anum++;
+                            idx3++;
+                            String code = 300000 + idx3 + "";
+                            String sql = MessageFormat.format(pattern3,"'"+code+"'","'"+name+"'","'"+unit+"'","'"+year+"'","'"+num+"'","'"+province+"'","'"+city+"'","'"+district+"'","'"+cls_1+"'","'"+cls_2+"'","'"+cls_3+"'");
+                            writer.write(sql + System.getProperty("line.separator"));
+                            writer.flush();
                         }
-                    }else if(depart.equals("国家知识产权局")){
-                        if(!qSet.contains(name)){
-                            qnum++;
-                        }
+                    }else {
+
                     }
 
                 }
@@ -124,12 +147,15 @@ public class CgiiaData {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(workbook!=null){
-                try {
+            try {
+                if(workbook!=null){
                     workbook.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+                if(writer!=null){
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         System.out.println();
@@ -153,5 +179,12 @@ public class CgiiaData {
             e.printStackTrace();
         }
         return conn;
+    }
+
+    @Test
+    public void strPattern(){
+        String pattern = "insert into table '{0}', value {1}";
+        String str = MessageFormat.format(pattern,"'北京'","'上海'");
+        System.out.println(str);
     }
 }
