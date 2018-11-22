@@ -16,4 +16,14 @@ public class DemoController {
         ModelAndView mav = new ModelAndView("/demo/navHeader");
         return mav;
     }
+
+    /**
+     * 分栏阴影
+     * @return
+     */
+    @RequestMapping("shadowPage.jhtml")
+    public ModelAndView shadowPage(){
+        ModelAndView mav = new ModelAndView("/demo/shadow");
+        return mav;
+    }
 }
